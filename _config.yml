@@ -6,7 +6,7 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: Fatigure Failure
+title: Fatigue Failure
 description: The next generation follow up for Craic Propagation.
 github_username: duffymo
 # you can comment the below line out if your repo name is not different than your baseurl
@@ -64,6 +64,7 @@ exclude:
   - docker-compose.yml
   - action.yml
   - Makefile
+  - settings.ini
 
 # this setting allows you to keep pages organized in the _pages folder
 include:
@@ -120,6 +121,4 @@ kramdown:
 feed:
   posts_limit: 5 #default posts_limit: 10
   excerpt_only: true
-  
-exclude:
-  - settings.ini
+
