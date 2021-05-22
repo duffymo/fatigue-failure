@@ -3,7 +3,7 @@
     
         "post0": {
             "title": "Title",
-            "content": "This is my first attempt at using Jupyter notebook. . My goal is to learn fast.ai, but one must walk before running. Best to begin with a Jupyter notebook. I found a tutorial that introduces both markdown and calculations. . I also downloaded DataSpell, an early access IDE for data science from JetBrains. I think their IntelliJ IDE for Java is the best tool on the market. I wanted to see if their new tool could provide a similar boost for my venture into data science. .",
+            "content": ". toc: false layout: post description: First Jupyter notebook for Fatigue Failure categories: [markdown] . title: Jupyter Notebook Tutorial With DataSpell . Introduction . &#39;This is my first attempt at using Jupyter notebook. . My goal is to learn fast.ai, but one must walk before running. Best to begin with a Jupyter notebook. I found a tutorial that introduces both markdown and calculations. . I also downloaded DataSpell, an early access IDE for data science from JetBrains. I think their IntelliJ IDE for Java is the best tool on the market. I wanted to see if their new tool could provide a similar boost for my venture into data science. .",
             "url": "/fatigue-failure/2021/05/22/jupyter-notebook-tutorial.html",
             "relUrl": "/2021/05/22/jupyter-notebook-tutorial.html",
             "date": " • May 22, 2021"
