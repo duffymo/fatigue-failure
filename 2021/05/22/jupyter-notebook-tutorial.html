@@ -106,7 +106,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      2 min read
+      3 min read
     
 </span></p>
 
@@ -310,7 +310,7 @@ $$ \hat{Y} = \hat{\beta_0} + \sum_{j=1}^p \hat{\beta}_j X_j $$<p><br /></p>
 <div class="output_area">
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>3 squared is 9
+<pre>7 squared is 49
 </pre>
 </div>
 </div>
@@ -455,6 +455,534 @@ $$ \hat{Y} = \hat{\beta_0} + \sum_{j=1}^p \hat{\beta}_j X_j $$<p><br /></p>
 </div>
     
 
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Year</th>
+      <th>Rank</th>
+      <th>Company</th>
+      <th>Revenue (in millions)</th>
+      <th>Profit (in millions)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>25495</th>
+      <td>2005</td>
+      <td>496</td>
+      <td>Wm. Wrigley Jr.</td>
+      <td>3648.6</td>
+      <td>493</td>
+    </tr>
+    <tr>
+      <th>25496</th>
+      <td>2005</td>
+      <td>497</td>
+      <td>Peabody Energy</td>
+      <td>3631.6</td>
+      <td>175.4</td>
+    </tr>
+    <tr>
+      <th>25497</th>
+      <td>2005</td>
+      <td>498</td>
+      <td>Wendy's International</td>
+      <td>3630.4</td>
+      <td>57.8</td>
+    </tr>
+    <tr>
+      <th>25498</th>
+      <td>2005</td>
+      <td>499</td>
+      <td>Kindred Healthcare</td>
+      <td>3616.6</td>
+      <td>70.6</td>
+    </tr>
+    <tr>
+      <th>25499</th>
+      <td>2005</td>
+      <td>500</td>
+      <td>Cincinnati Financial</td>
+      <td>3614.0</td>
+      <td>584</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">,</span> <span class="s1">&#39;rank&#39;</span><span class="p">,</span> <span class="s1">&#39;company&#39;</span><span class="p">,</span> <span class="s1">&#39;revenue&#39;</span><span class="p">,</span> <span class="s1">&#39;profit&#39;</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>25500</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>year         int64
+rank         int64
+company     object
+revenue    float64
+profit      object
+dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Profit should be a float; instead, it's an object.  There must be non-integer values in that column.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">non_numeric_profits</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">profit</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;[^0-9.-]&#39;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">non_numeric_profits</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>rank</th>
+      <th>company</th>
+      <th>revenue</th>
+      <th>profit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>228</th>
+      <td>1955</td>
+      <td>229</td>
+      <td>Norton</td>
+      <td>135.0</td>
+      <td>N.A.</td>
+    </tr>
+    <tr>
+      <th>290</th>
+      <td>1955</td>
+      <td>291</td>
+      <td>Schlitz Brewing</td>
+      <td>100.0</td>
+      <td>N.A.</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>1955</td>
+      <td>295</td>
+      <td>Pacific Vegetable Oil</td>
+      <td>97.9</td>
+      <td>N.A.</td>
+    </tr>
+    <tr>
+      <th>296</th>
+      <td>1955</td>
+      <td>297</td>
+      <td>Liebmann Breweries</td>
+      <td>96.0</td>
+      <td>N.A.</td>
+    </tr>
+    <tr>
+      <th>352</th>
+      <td>1955</td>
+      <td>353</td>
+      <td>Minneapolis-Moline</td>
+      <td>77.4</td>
+      <td>N.A.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">set</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">profit</span><span class="p">[</span><span class="n">non_numeric_profits</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;N.A.&#39;}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are values that are NA.  How many?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">profit</span><span class="p">[</span><span class="n">non_numeric_profits</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>369</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That's a small fraction of total data set:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">profit</span><span class="p">[</span><span class="n">non_numeric_profits</span><span class="p">])</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>0.014470588235294117</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The easiest thing to do is to discard the bad records.  How are they distributed?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">bin_sizes</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">year</span><span class="p">[</span><span class="n">non_numeric_profits</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">1955</span><span class="p">,</span><span class="mi">2006</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+" />
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The most invalid cases in a single year is fewer than 25.  Since there are 500 points per year, removing these values would account for less than 4% of the data for the worst years.  Let's remove these rows:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">-</span><span class="n">non_numeric_profits</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">profit</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">profit</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>25131</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's check the types:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>year         int64
+rank         int64
+company     object
+revenue    float64
+profit     float64
+dtype: object</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The final presentation notebook shouldn't leave all these exploratory cells, but I want to be able to see them.</p>
+
+</div>
+</div>
+</div>
 </div>
 
 
